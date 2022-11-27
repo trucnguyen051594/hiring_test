@@ -1,0 +1,21 @@
+* {
+    box-sizing: border-box;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, td, th {
+    border: 1px solid;
+}
+
+th, td {
+    padding: 15px
+}
+
+a {
+    color: rgb(96, 96, 238);
+    text-decoration: underline;
+    cursor: pointer;
+}

@@ -1,0 +1,44 @@
+<h1>Tasks</h1>
+  <form [formGroup]="form">
+    <!-- functions -->
+    <div>
+      <button (click)="createTask(0)"> New </button> 
+      <app-create-task *ngIf="showCreateTask" (submit)="createTask(1, $event)"></app-create-task>
+      <br/><br/>
+      <input placeholder="search.." formControlName="search" />
+    </div>
+  
+    <br/><br/>
+  
+    <ng-container *ngIf="(taskStore.vm$ | async).loading; else showContent">
+      loading...
+    </ng-container>
+    <!-- content -->
+    <ng-template #showContent>
+      <table>
+        <thead>
+          <tr>
+            <th>Done</th>
+            <th>Task Name</th>
+            <th>Assignee</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of (tasks$ | async); let i = index">
+              <td> <input type="checkbox" #value [checked]="task.completed" (click)="updateCompleted(task.id, value)"/> </td>
+              <td> <a (click)="navigateTo(task.id)">{{ task.description }}</a> </td>
+              <td> 
+                {{ (task.assigneeId | getName) }} 
+                <select *ngIf="!task.assigneeId" (change)="selectAssignee(task.id, $event.target.value)">
+                  <option [value]="null">Please select assignee</option>
+                  <option *ngFor="let user of (users$ | async)"  [value]="user.id"> {{ user.name }} </option>
+                </select>
+              </td>
+              <td> <a (click)="delete(task.id)"> Delete </a> </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-template>
+  </form>
+

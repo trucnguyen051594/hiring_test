@@ -1,0 +1,12 @@
+<br/><br/>
+<form [formGroup]="form">
+    <textarea [class.error]="form.get('description').touched && form.get('description').invalid" placeholder="description..." formControlName="description"></textarea> <br/>
+    <select formControlName="assigneeId" [class.error]="form.get('assigneeId').touched && form.get('assigneeId').invalid">
+        <option [value]="null">Please choose asignee</option>
+        <ng-container *ngFor="let user of (users$ | async)">
+            <option [value]="user.id"> {{ user.name }} </option>
+        </ng-container>
+    </select>
+</form>
+<br/>
+<button (click)="save()"> Save </button>
